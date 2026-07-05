@@ -560,7 +560,7 @@
 </section>
 
 <!-- 11 · the full title -->
-<section class="beat" data-braam="mega">
+<section class="beat" id="the-movie" data-braam="mega">
   <p class="eyebrow">In</p>
   <h2 class="mega-title">Alien Invasion Tomato Monster Mexican Armada Brothers, Who Are Just Regular Brothers, Running In a Van from an Asteroid and All Sorts of Things
     <span class="the-movie">The Movie</span>
@@ -597,7 +597,7 @@
 </section>
 
 <!-- 17 · finale -->
-<section class="beat finale" data-collapse="true" data-braam="mega">
+<section class="beat finale" id="two-brothers" data-collapse="true" data-braam="mega">
   <p class="eyebrow">It's two brothers and — it's called</p>
   <h2 class="line orange">Two Brothers.</h2>
   <p class="just-called">It's just called "Two Brothers."</p>
@@ -729,35 +729,35 @@
 
   /* ---------- beat activation ---------- */
   var braamed = {};
+  var collapseIdx = beats.findIndex(function (b) { return b.hasAttribute('data-collapse'); });
+
+  // tracker state is a pure function of the beat currently in view, so
+  // long scrollbar jumps can't leave stale chunks lit
+  function syncTracker(currentIdx) {
+    beats.forEach(function (b, i) {
+      if (chunks[i]) chunks[i].classList.toggle('in', i <= currentIdx);
+    });
+    var collapsed = currentIdx >= collapseIdx;
+    tracker.classList.toggle('collapsed', collapsed);
+    finalChunk.classList.toggle('in', collapsed);
+    tracker.classList.toggle('hidden', beats[currentIdx].classList.contains('credits'));
+  }
+
   var observer = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
       var beat = entry.target;
       var idx = beats.indexOf(beat);
       if (entry.isIntersecting) {
         beat.classList.add('on');
-        // reveal every tracker chunk up to and including this beat
-        beats.forEach(function (b, i) {
-          if (i <= idx && chunks[i]) chunks[i].classList.add('in');
-        });
-        if (beat.hasAttribute('data-collapse')) {
-          tracker.classList.add('collapsed');
-          finalChunk.classList.add('in');
-        }
-        if (beat.classList.contains('credits')) tracker.classList.add('hidden');
-        else tracker.classList.remove('hidden');
+        syncTracker(idx);
         if (!braamed[idx]) {
           braamed[idx] = true;
           braam(beat.getAttribute('data-braam'));
         }
       } else if (entry.boundingClientRect.top > 0) {
-        // scrolled back above this beat: allow replay + retract state
+        // scrolled back above this beat: allow replay
         beat.classList.remove('on');
         braamed[idx] = false;
-        if (chunks[idx]) chunks[idx].classList.remove('in');
-        if (beat.hasAttribute('data-collapse')) {
-          tracker.classList.remove('collapsed');
-          finalChunk.classList.remove('in');
-        }
       }
     });
   }, { threshold: 0.55 });
