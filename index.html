@@ -306,6 +306,13 @@
     background-clip: text;
   }
 
+  /* during synced playback, title words appear only once the narrator says them */
+  .mega-title .w { transition: opacity 0.3s ease, transform 0.3s ease; }
+  body.playing .mega-title .w:not(.said) {
+    opacity: 0;
+    transform: translateY(0.18em);
+  }
+
   /* ---------- finale ---------- */
 
   .finale .line { max-width: 12ch; }
@@ -568,11 +575,34 @@
   <h2 class="line">These two brothers know how to handle business.</h2>
 </section>
 
-<!-- 11 · the full title -->
+<!-- 11 · the full title (data-t = narration word timestamps in the mp3) -->
 <section class="beat" id="the-movie" data-braam="mega">
   <p class="eyebrow">In</p>
-  <h2 class="mega-title">Alien Invasion Tomato Monster Mexican Armada Brothers, Who Are Just Regular Brothers, Running In a Van from an Asteroid and All Sorts of Things
-    <span class="the-movie">The Movie</span>
+  <h2 class="mega-title"><span class="w" data-t="27.66">Alien</span>
+    <span class="w" data-t="28.42">Invasion</span>
+    <span class="w" data-t="30.12">Tomato</span>
+    <span class="w" data-t="30.78">Monster</span>
+    <span class="w" data-t="31.66">Mexican</span>
+    <span class="w" data-t="32.08">Armada</span>
+    <span class="w" data-t="32.92">Brothers,</span>
+    <span class="w" data-t="33.90">Who</span>
+    <span class="w" data-t="33.94">Are</span>
+    <span class="w" data-t="34.04">Just</span>
+    <span class="w" data-t="34.28">Regular</span>
+    <span class="w" data-t="34.68">Brothers,</span>
+    <span class="w" data-t="35.36">Running</span>
+    <span class="w" data-t="35.66">In</span>
+    <span class="w" data-t="36.34">a</span>
+    <span class="w" data-t="36.48">Van</span>
+    <span class="w" data-t="36.78">from</span>
+    <span class="w" data-t="37.34">an</span>
+    <span class="w" data-t="37.48">Asteroid</span>
+    <span class="w" data-t="38.76">and</span>
+    <span class="w" data-t="38.84">All</span>
+    <span class="w" data-t="39.02">Sorts</span>
+    <span class="w" data-t="39.32">of</span>
+    <span class="w" data-t="39.62">Things</span>
+    <span class="the-movie"><span class="w" data-t="40.20">The</span> <span class="w" data-t="40.26">Movie</span></span>
   </h2>
 </section>
 
@@ -808,6 +838,11 @@
   var syncRaf = null;
   var cueIdx = 0;
 
+  // mega-title words, revealed as the narrator says them
+  var WORD_LEAD = 0.15;
+  var titleWords = Array.prototype.slice.call(document.querySelectorAll('.mega-title .w'));
+  var wordIdx = 0;
+
   function beatDwell(beat) {
     var text = beat.textContent.replace(/\s+/g, ' ').trim();
     if (beat.classList.contains('rating-card')) return 2600;
@@ -841,6 +876,11 @@
       beats[cues[cueIdx][1]].scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth' });
       cueIdx++;
     }
+    var tw = soundtrack.currentTime + WORD_LEAD;
+    while (wordIdx < titleWords.length && tw >= parseFloat(titleWords[wordIdx].getAttribute('data-t'))) {
+      titleWords[wordIdx].classList.add('said');
+      wordIdx++;
+    }
     syncRaf = requestAnimationFrame(syncTick);
   }
 
@@ -857,6 +897,8 @@
     if (!soundtrackDead && soundtrack.readyState >= 2) {
       document.body.classList.add('playing');
       cueIdx = 0;
+      wordIdx = 0;
+      titleWords.forEach(function (w) { w.classList.remove('said'); });
       soundtrack.currentTime = 0;
       soundtrack.play().then(syncTick).catch(function () {
         // autoplay refused or decode failure — fall back to synth mode
