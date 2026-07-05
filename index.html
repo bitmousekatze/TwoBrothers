@@ -459,6 +459,137 @@
   #play-btn:hover, #play-btn:focus-visible { border-color: var(--grade-orange); color: var(--grade-orange); }
   #play-btn:focus-visible { outline: 2px solid var(--grade-orange); outline-offset: 3px; }
 
+  /* ---------- set pieces (moon-style: big, dark, behind the text) ---------- */
+
+  .cat-monster {
+    position: absolute;
+    right: -8vmin;
+    bottom: -6vmin;
+    width: 70vmin;
+    opacity: 0;
+    transform: translateY(14vmin);
+    transition: opacity 1.8s ease 0.5s, transform 4.5s cubic-bezier(0.22, 1, 0.36, 1) 0.5s;
+    z-index: 0 !important;
+  }
+  .beat.on .cat-monster { opacity: 0.55; transform: none; }
+  .cat-monster .monster-eye { opacity: 0; transition: opacity 0.6s ease 2s; }
+  .beat.on .cat-monster .monster-eye { opacity: 1; animation: blink 5.5s ease 3.2s infinite; }
+
+  .tornado {
+    position: absolute;
+    left: 3vw;
+    bottom: 0;
+    width: 46vmin;
+    opacity: 0;
+    transform: translateY(10vmin);
+    transition: opacity 1.6s ease 0.4s, transform 3.5s cubic-bezier(0.22, 1, 0.36, 1) 0.4s;
+    z-index: 0 !important;
+  }
+  .beat.on .tornado { opacity: 0.36; transform: none; }
+  .tornado .funnel { transform-origin: 50% 96%; }
+  .beat.on .tornado .funnel { animation: sway 5s ease-in-out infinite; }
+  @keyframes sway {
+    0%, 100% { transform: rotate(-4deg); }
+    50% { transform: rotate(4deg); }
+  }
+
+  .armada {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 38vmin;
+    opacity: 0;
+    transition: opacity 1.6s ease 0.3s;
+    z-index: 0 !important;
+    overflow: hidden;
+  }
+  .beat.on .armada { opacity: 0.5; }
+  .armada .ship {
+    position: absolute;
+    bottom: 4vmin;
+    transition: transform 5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .armada .ship svg { width: 100%; height: auto; display: block; }
+  .armada .s1 { left: 12vw; width: 30vmin; transform: translateX(-60vw); }
+  .armada .s2 { left: 44vw; width: 22vmin; bottom: 7vmin; transform: translateX(-80vw); transition-delay: 0.35s; }
+  .armada .s3 { left: 70vw; width: 26vmin; transform: translateX(-100vw); transition-delay: 0.7s; }
+  .beat.on .armada .ship { transform: translateX(0); }
+  .beat.on .armada .ship svg { animation: bobship 4.5s ease-in-out infinite; }
+  .beat.on .armada .s2 svg { animation-delay: 1.2s; }
+  .beat.on .armada .s3 svg { animation-delay: 2.3s; }
+  @keyframes bobship {
+    0%, 100% { transform: rotate(-2deg) translateY(0); }
+    50% { transform: rotate(2deg) translateY(-1.2vmin); }
+  }
+  .armada .sea {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 6vmin;
+    background: linear-gradient(0deg, rgba(37, 185, 204, 0.14), transparent);
+  }
+
+  .cannon {
+    position: absolute;
+    left: 3vw;
+    bottom: 2vh;
+    width: 30vmin;
+    opacity: 0;
+    transform: translateY(10vmin);
+    transition: opacity 1.4s ease 0.4s, transform 2.8s cubic-bezier(0.22, 1, 0.36, 1) 0.4s;
+    z-index: 0 !important;
+  }
+  .beat.on .cannon { opacity: 0.55; transform: none; }
+
+  .lob {
+    position: absolute;
+    left: calc(3vw + 20vmin);
+    bottom: calc(2vh + 22vmin);
+    width: 3vmin;
+    height: 3vmin;
+    border-radius: 50%;
+    background: radial-gradient(circle at 32% 30%, #ff8c7a 0%, var(--tomato) 45%, #8f1c14 100%);
+    opacity: 0;
+    z-index: 0 !important;
+  }
+  .beat.on .lob { animation: lob 2.7s linear infinite; }
+  .beat.on .lob:nth-of-type(2) { animation-delay: 0.9s; }
+  .beat.on .lob:nth-of-type(3) { animation-delay: 1.8s; }
+  @keyframes lob {
+    0%   { transform: translate(0, 0) scale(0.6); opacity: 0; }
+    8%   { opacity: 0.8; }
+    50%  { transform: translate(33vw, -28vh) scale(1); }
+    90%  { opacity: 0.8; }
+    100% { transform: translate(64vw, 8vh) scale(1.05); opacity: 0; }
+  }
+
+  .granny-row {
+    position: absolute;
+    right: 5vw;
+    bottom: 2vh;
+    display: flex;
+    align-items: flex-end;
+    gap: 4vmin;
+    opacity: 0;
+    transform: translateX(24vw);
+    transition: opacity 1.5s ease 0.4s, transform 4s cubic-bezier(0.22, 1, 0.36, 1) 0.4s;
+    z-index: 0 !important;
+  }
+  .beat.on .granny-row { opacity: 0.55; transform: none; }
+  .granny-row svg { display: block; }
+  .granny-row .g1 { width: 15vmin; }
+  .granny-row .g2 { width: 13vmin; }
+  .granny-row .g3 { width: 16vmin; }
+  .beat.on .granny-row svg { animation: waddle 1.1s ease-in-out infinite; transform-origin: 50% 100%; }
+  .beat.on .granny-row .g2 { animation-delay: 0.25s; }
+  .beat.on .granny-row .g3 { animation-delay: 0.55s; }
+  @keyframes waddle {
+    0%, 100% { transform: rotate(-2deg) translateY(0); }
+    50% { transform: rotate(2deg) translateY(-0.8vmin); }
+  }
+
   /* during synced playback the narration moves fast — reveal cards quickly */
   body.playing .line,
   body.playing .mega-title {
@@ -487,6 +618,37 @@
 <body>
 
 <canvas class="stars" id="stars" aria-hidden="true"></canvas>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="galleon" viewBox="0 0 240 210">
+      <g fill="#20272f">
+        <path d="M8 150 Q120 186 232 150 L206 197 Q120 215 34 197 Z"/>
+        <rect x="114" y="16" width="9" height="142"/>
+        <rect x="58" y="46" width="7" height="112"/>
+        <rect x="173" y="46" width="7" height="112"/>
+        <path d="M122 26 Q178 60 122 98 Z"/>
+        <path d="M122 102 Q170 126 122 150 Z"/>
+        <path d="M64 54 Q108 80 64 110 Z"/>
+        <path d="M179 54 Q222 80 179 110 Z"/>
+      </g>
+      <path d="M114 16 L84 25 L114 34 Z" fill="#e0342b"/>
+    </symbol>
+    <symbol id="granny" viewBox="0 0 110 150">
+      <g fill="#20272f">
+        <circle cx="38" cy="34" r="17"/>
+        <circle cx="53" cy="19" r="8"/>
+        <path d="M22 44 Q6 96 26 138 L78 138 Q92 92 62 48 Q40 36 22 44 Z"/>
+        <rect x="28" y="136" width="17" height="9" rx="4"/>
+        <rect x="52" y="136" width="17" height="9" rx="4"/>
+        <rect x="63" y="96" width="21" height="17" rx="4"/>
+      </g>
+      <path d="M66 96 Q74 85 82 96" stroke="#20272f" stroke-width="4" fill="none"/>
+      <path d="M88 80 L95 141" stroke="#20272f" stroke-width="6" stroke-linecap="round" fill="none"/>
+      <path d="M78 80 Q88 72 95 81" stroke="#20272f" stroke-width="6" stroke-linecap="round" fill="none"/>
+    </symbol>
+  </defs>
+</svg>
 
 <button id="play-btn" type="button">▶&nbsp;&nbsp;Play trailer</button>
 
@@ -533,6 +695,21 @@
 
 <!-- 5 -->
 <section class="beat" data-title="Monster" data-braam="small">
+  <svg class="cat-monster" viewBox="0 0 460 440" aria-hidden="true">
+    <path d="M415 434 Q475 330 412 238" fill="none" stroke="#20272f" stroke-width="30" stroke-linecap="round"/>
+    <g fill="#20272f">
+      <path d="M62 122 L38 12 L124 74 Z"/>
+      <path d="M222 122 L248 12 L162 74 Z"/>
+      <circle cx="142" cy="168" r="96"/>
+      <path d="M112 225 Q88 310 118 440 L272 440 Q248 320 235 242 Z"/>
+      <ellipse cx="285" cy="335" rx="160" ry="112"/>
+      <ellipse cx="152" cy="430" rx="58" ry="16"/>
+    </g>
+    <ellipse class="monster-eye" cx="105" cy="162" rx="16" ry="26" fill="#f2e478"/>
+    <ellipse class="monster-eye" cx="178" cy="162" rx="16" ry="26" fill="#f2e478"/>
+    <ellipse cx="105" cy="162" rx="4.5" ry="21" fill="#20272f"/>
+    <ellipse cx="178" cy="162" rx="4.5" ry="21" fill="#20272f"/>
+  </svg>
   <div class="cat-eyes" aria-hidden="true">
     <span class="pair"><i></i><i></i></span>
     <span class="pair"><i></i><i></i></span>
@@ -543,6 +720,18 @@
 
 <!-- 6 -->
 <section class="beat quake" data-title="and all sorts of things" data-braam="big">
+  <svg class="tornado" viewBox="0 0 300 400" aria-hidden="true">
+    <g class="funnel" fill="#20272f">
+      <ellipse cx="150" cy="42" rx="142" ry="30" opacity="0.95"/>
+      <ellipse cx="140" cy="92" rx="112" ry="25" opacity="0.9"/>
+      <ellipse cx="155" cy="140" rx="86" ry="21" opacity="0.9"/>
+      <ellipse cx="142" cy="188" rx="63" ry="18" opacity="0.85"/>
+      <ellipse cx="152" cy="236" rx="43" ry="15" opacity="0.85"/>
+      <ellipse cx="145" cy="284" rx="27" ry="12" opacity="0.8"/>
+      <ellipse cx="150" cy="326" rx="15" ry="9" opacity="0.8"/>
+      <path d="M150 326 Q146 360 152 394" stroke="#20272f" stroke-width="8" stroke-linecap="round" fill="none"/>
+    </g>
+  </svg>
   <h2 class="line teal">And then a giant tornado came.</h2>
 </section>
 
@@ -554,11 +743,27 @@
 
 <!-- 8 -->
 <section class="beat" data-title="Mexican Armada" data-braam="big">
+  <div class="armada" aria-hidden="true">
+    <div class="ship s1"><svg viewBox="0 0 240 210"><use href="#galleon"/></svg></div>
+    <div class="ship s2"><svg viewBox="0 0 240 210"><use href="#galleon"/></svg></div>
+    <div class="ship s3"><svg viewBox="0 0 240 210"><use href="#galleon"/></svg></div>
+    <div class="sea"></div>
+  </div>
   <h2 class="line">A Mexican armada shows up.</h2>
 </section>
 
 <!-- 9 -->
 <section class="beat" data-title="Tomato" data-braam="small">
+  <svg class="cannon" viewBox="0 0 260 210" aria-hidden="true">
+    <g fill="#20272f">
+      <path d="M28 172 L148 58 Q170 42 186 60 Q200 80 184 96 L64 206 Z"/>
+      <circle cx="72" cy="168" r="36"/>
+    </g>
+    <circle cx="72" cy="168" r="13" fill="#050608"/>
+  </svg>
+  <div class="lob" aria-hidden="true"></div>
+  <div class="lob" aria-hidden="true"></div>
+  <div class="lob" aria-hidden="true"></div>
   <svg class="splat" viewBox="0 0 400 400" aria-hidden="true">
     <path fill="#e0342b" d="M200 60c18 34 52 22 66 48 12 22 52 8 62 40 9 29-26 38-20 66 6 30 40 42 18 70-19 24-46-4-68 12-24 18-16 50-52 46-32-4-26-38-52-46-28-9-52 18-68-10-15-27 14-42 6-70-8-27-44-28-36-60 7-29 42-18 56-42 15-25-8-56 24-68 29-11 42 30 64 14z"/>
     <circle fill="#e0342b" cx="60" cy="80" r="14"/>
@@ -613,6 +818,11 @@
 
 <!-- 13 -->
 <section class="beat" data-title="Old women" data-braam="big">
+  <div class="granny-row" aria-hidden="true">
+    <svg class="g1" viewBox="0 0 110 150"><use href="#granny"/></svg>
+    <svg class="g2" viewBox="0 0 110 150"><use href="#granny"/></svg>
+    <svg class="g3" viewBox="0 0 110 150"><use href="#granny"/></svg>
+  </div>
   <h2 class="line">Old women are coming.</h2>
   <p class="aside">And they're also in the movie — and they're gonna come and cross-attack these two brothers</p>
 </section>
