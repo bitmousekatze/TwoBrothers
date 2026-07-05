@@ -452,6 +452,15 @@
   #play-btn:hover, #play-btn:focus-visible { border-color: var(--grade-orange); color: var(--grade-orange); }
   #play-btn:focus-visible { outline: 2px solid var(--grade-orange); outline-offset: 3px; }
 
+  /* during synced playback the narration moves fast — reveal cards quickly */
+  body.playing .line,
+  body.playing .mega-title {
+    transition: opacity 0.45s ease 0s, transform 2.8s cubic-bezier(0.16, 1, 0.3, 1) 0s;
+  }
+  body.playing .eyebrow { transition: opacity 0.4s ease 0s, transform 0.4s ease 0s; }
+  body.playing .aside { transition: opacity 0.6s ease 0.3s; }
+  body.playing .finale .just-called { transition: opacity 0.8s ease 1.2s; }
+
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     *, *::before, *::after {
@@ -763,10 +772,41 @@
   }, { threshold: 0.55 });
   beats.forEach(function (b) { observer.observe(b); });
 
-  /* ---------- play trailer (auto-scroll) ---------- */
+  /* ---------- soundtrack ---------- */
+  var soundtrack = new Audio('twobrothers.mp3');
+  soundtrack.preload = 'auto';
+  var soundtrackDead = false;
+  soundtrack.addEventListener('error', function () { soundtrackDead = true; });
+
+  // beat index ← narration start time (word-level timestamps transcribed
+  // from twobrothers.mp3 with whisper; lead compensates scroll travel)
+  var CUE_LEAD = 0.35;
+  var cues = [
+    [0.00, 1],   // "Two brothers."
+    [0.48, 2],   // "in a van"
+    [2.44, 3],   // "and then a meteor hit"
+    [3.90, 4],   // "and they ran as fast as they could"
+    [6.40, 5],   // "from giant cat monsters"
+    [8.48, 6],   // "and then a giant tornado came"
+    [10.70, 7],  // "and that's when things got knocked into 12th gear"
+    [15.74, 8],  // "a Mexican armada shows up"
+    [18.18, 9],  // "with weapons made from tomatoes"
+    [21.64, 10], // "and you better bet your bottom dollar..."
+    [27.38, 11], // "In: Alien Invasion Tomato Monster..."
+    [41.26, 12], // "hold on, there's more"
+    [43.44, 13], // "old women are coming..."
+    [50.78, 14], // "but let's get back to the brothers..."
+    [57.80, 15], // "the moon, it comes crashing into Earth"
+    [60.22, 16], // "and what do you do then?"
+    [61.56, 17]  // "it's two brothers and— it's called Two Brothers"
+  ];
+
+  /* ---------- play trailer ---------- */
   var playBtn = document.getElementById('play-btn');
   var playing = false;
   var playTimer = null;
+  var syncRaf = null;
+  var cueIdx = 0;
 
   function beatDwell(beat) {
     var text = beat.textContent.replace(/\s+/g, ' ').trim();
@@ -780,9 +820,13 @@
   function stopPlayback(label) {
     playing = false;
     clearTimeout(playTimer);
+    cancelAnimationFrame(syncRaf);
+    if (!soundtrack.paused) soundtrack.pause();
+    document.body.classList.remove('playing');
     playBtn.textContent = label || '▶  Play trailer';
   }
 
+  // fallback when the mp3 is missing: timed autoscroll + synthesized braams
   function playFrom(i) {
     if (!playing) return;
     if (i >= beats.length) { stopPlayback('↻  Play again'); return; }
@@ -790,15 +834,45 @@
     playTimer = setTimeout(function () { playFrom(i + 1); }, beatDwell(beats[i]));
   }
 
+  function syncTick() {
+    if (!playing) return;
+    var t = soundtrack.currentTime + CUE_LEAD;
+    while (cueIdx < cues.length && t >= cues[cueIdx][0]) {
+      beats[cues[cueIdx][1]].scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth' });
+      cueIdx++;
+    }
+    syncRaf = requestAnimationFrame(syncTick);
+  }
+
+  soundtrack.addEventListener('ended', function () {
+    if (!playing) return;
+    beats[beats.length - 1].scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth' });
+    stopPlayback('↻  Play again');
+  });
+
   playBtn.addEventListener('click', function () {
     if (playing) { stopPlayback(); return; }
-    if (!audioCtx) {
-      try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {}
-    }
-    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
     playing = true;
     playBtn.textContent = '■  Stop';
-    playFrom(0);
+    if (!soundtrackDead && soundtrack.readyState >= 2) {
+      document.body.classList.add('playing');
+      cueIdx = 0;
+      soundtrack.currentTime = 0;
+      soundtrack.play().then(syncTick).catch(function () {
+        // autoplay refused or decode failure — fall back to synth mode
+        document.body.classList.remove('playing');
+        if (!audioCtx) {
+          try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {}
+        }
+        playFrom(0);
+      });
+    } else {
+      if (!audioCtx) {
+        try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {}
+      }
+      if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+      playFrom(0);
+    }
   });
 
   // manual scroll cancels autoplay
