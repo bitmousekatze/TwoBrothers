@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TWO BROTHERS — Official Trailer</title>
+<meta name="description" content="Two brothers. In a van. And then a meteor hit. The official trailer experience.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Cinzel:wght@500;700&family=Oswald:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚐</text></svg>">
+<style>
+  :root {
+    --void: #050608;
+    --steel-hi: #f2f5f8;
+    --steel-lo: #7c8894;
+    --grade-orange: #ff7a1a;
+    --grade-teal: #25b9cc;
+    --tomato: #e0342b;
+    --mpaa-green: #1f6e31;
+    --dim: #9aa4ae;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--void);
+    color: var(--steel-hi);
+    font-family: 'Oswald', sans-serif;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--grade-orange); color: var(--void); }
+
+  /* ---------- beats ---------- */
+
+  .beat {
+    min-height: 100vh;
+    min-height: 100svh;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8vh 6vw 16vh;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .eyebrow {
+    font-family: 'Cinzel', serif;
+    font-weight: 500;
+    font-size: clamp(0.8rem, 2vw, 1.15rem);
+    letter-spacing: 0.55em;
+    text-indent: 0.55em; /* balance the tracking on centered text */
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 2.2rem;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 1.1s ease, transform 1.1s ease;
+  }
+
+  .line {
+    font-family: 'Anton', sans-serif;
+    text-transform: uppercase;
+    font-size: clamp(2.4rem, 9vw, 7.5rem);
+    line-height: 1.02;
+    letter-spacing: 0.015em;
+    max-width: 16ch;
+    background: linear-gradient(180deg, var(--steel-hi) 25%, var(--steel-lo) 78%, #39424b 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    filter: drop-shadow(0 2px 22px rgba(140, 170, 190, 0.18));
+    opacity: 0;
+    transform: scale(0.96);
+    transition: opacity 1.3s ease 0.25s, transform 2.8s cubic-bezier(0.16, 1, 0.3, 1) 0.25s;
+  }
+
+  .line.orange {
+    background: linear-gradient(180deg, #ffd9ac 15%, var(--grade-orange) 60%, #93380a 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    filter: drop-shadow(0 0 34px rgba(255, 122, 26, 0.35));
+  }
+
+  .line.teal {
+    background: linear-gradient(180deg, #d8f7fb 15%, var(--grade-teal) 62%, #0c4a54 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    filter: drop-shadow(0 0 34px rgba(37, 185, 204, 0.3));
+  }
+
+  .line.red {
+    background: linear-gradient(180deg, #ffc9c2 12%, var(--tomato) 58%, #6e130e 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    filter: drop-shadow(0 0 34px rgba(224, 52, 43, 0.35));
+  }
+
+  .aside {
+    margin-top: 2.4rem;
+    font-weight: 300;
+    font-size: clamp(0.95rem, 2.2vw, 1.25rem);
+    letter-spacing: 0.28em;
+    text-indent: 0.28em;
+    text-transform: uppercase;
+    color: var(--dim);
+    max-width: 42rem;
+    opacity: 0;
+    transition: opacity 1.4s ease 1s;
+  }
+
+  .beat.on .eyebrow { opacity: 1; transform: translateY(0); }
+  .beat.on .line { opacity: 1; transform: scale(1.045); }
+  .beat.on .aside { opacity: 1; }
+
+  /* ---------- rating card ---------- */
+
+  .rating-card {
+    background: var(--mpaa-green);
+    color: #eef5ee;
+    font-family: Georgia, 'Times New Roman', serif;
+  }
+  .rating-card .frame {
+    border: 3px solid #eef5ee;
+    padding: clamp(1.5rem, 5vw, 3.5rem) clamp(1.5rem, 6vw, 4.5rem);
+    max-width: 44rem;
+  }
+  .rating-card p {
+    font-size: clamp(0.95rem, 2.4vw, 1.4rem);
+    line-height: 1.55;
+    letter-spacing: 0.04em;
+  }
+  .rating-card .approved {
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 1.1rem;
+    font-size: clamp(1.05rem, 2.8vw, 1.6rem);
+  }
+  .rating-card .rated {
+    display: inline-block;
+    margin-top: 1.6rem;
+    border: 2px solid #eef5ee;
+    padding: 0.35em 0.8em;
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    letter-spacing: 0.06em;
+  }
+  .rating-card .scroll-hint {
+    position: absolute;
+    bottom: 9vh;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.3em;
+    text-indent: 0.3em;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    opacity: 0.75;
+    animation: bob 2.2s ease-in-out infinite;
+  }
+  @keyframes bob {
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, 8px); }
+  }
+
+  /* ---------- set dressing ---------- */
+
+  .stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.55;
+  }
+  .beat > * { position: relative; z-index: 1; }
+
+  .van-svg {
+    width: clamp(130px, 24vw, 230px);
+    margin-bottom: 2.6rem;
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 1.2s ease 0.4s, transform 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.4s;
+  }
+  .beat.on .van-svg { opacity: 1; transform: translateX(0); }
+
+  .meteor-streaks { position: absolute; inset: 0; pointer-events: none; }
+  .meteor-streaks span {
+    position: absolute;
+    width: 46vmax;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #ffb347, #fff);
+    transform: rotate(38deg);
+    opacity: 0;
+  }
+  .beat.on .meteor-streaks span { animation: streak 1.6s ease-out forwards; }
+  .meteor-streaks span:nth-child(1) { top: 12%; left: -18%; animation-delay: 0.15s !important; }
+  .meteor-streaks span:nth-child(2) { top: 34%; left: 48%; animation-delay: 0.55s !important; }
+  .meteor-streaks span:nth-child(3) { top: 64%; left: 6%; animation-delay: 0.95s !important; }
+  @keyframes streak {
+    0%   { opacity: 0; transform: rotate(38deg) translateX(-24vmax); }
+    18%  { opacity: 1; }
+    100% { opacity: 0; transform: rotate(38deg) translateX(52vmax); }
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translate(0, 0); }
+    12% { transform: translate(-9px, 5px); }
+    28% { transform: translate(8px, -7px); }
+    44% { transform: translate(-7px, -4px); }
+    60% { transform: translate(6px, 6px); }
+    76% { transform: translate(-4px, 3px); }
+    90% { transform: translate(3px, -2px); }
+  }
+  .beat.on.quake { animation: shake 0.7s linear 0.35s 2; }
+
+  .cat-eyes {
+    display: flex;
+    gap: clamp(2.5rem, 9vw, 6rem);
+    margin-bottom: 2.6rem;
+  }
+  .cat-eyes .pair { display: flex; gap: 0.9rem; }
+  .cat-eyes i {
+    width: clamp(16px, 3vw, 26px);
+    height: clamp(22px, 4.2vw, 36px);
+    background: radial-gradient(ellipse at center, #fdf6a3 0%, #d9c221 55%, transparent 75%);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    opacity: 0;
+    transform: scaleY(0);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .beat.on .cat-eyes i { opacity: 1; transform: scaleY(1); animation: blink 4.5s ease 2.5s infinite; }
+  .beat.on .cat-eyes .pair:nth-child(1) i { transition-delay: 0.5s; }
+  .beat.on .cat-eyes .pair:nth-child(2) i { transition-delay: 1.1s; }
+  .beat.on .cat-eyes .pair:nth-child(3) i { transition-delay: 1.7s; }
+  @keyframes blink {
+    0%, 91%, 100% { transform: scaleY(1); }
+    94% { transform: scaleY(0.06); }
+    97% { transform: scaleY(1); }
+  }
+
+  .splat {
+    position: absolute;
+    width: clamp(220px, 42vw, 520px);
+    opacity: 0;
+    transform: scale(0.2) rotate(-16deg);
+    transition: opacity 0.28s ease 0.7s, transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) 0.7s;
+    z-index: 0 !important;
+  }
+  .beat.on .splat { opacity: 0.34; transform: scale(1) rotate(-16deg); }
+
+  .moon {
+    position: absolute;
+    bottom: -34vmin;
+    right: -14vmin;
+    width: 76vmin;
+    height: 76vmin;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 34% 30%, rgba(255,255,255,0.16) 0%, transparent 42%),
+      radial-gradient(circle at 62% 58%, rgba(0,0,0,0.35) 0%, transparent 30%),
+      linear-gradient(160deg, #c8ced6 0%, #78818c 55%, #3d444c 100%);
+    box-shadow: 0 0 90px rgba(200, 210, 225, 0.35);
+    opacity: 0;
+    transform: translateY(24vmin) scale(0.85);
+    transition: opacity 1.6s ease 0.4s, transform 5s cubic-bezier(0.22, 1, 0.36, 1) 0.4s;
+    z-index: 0 !important;
+  }
+  .beat.on .moon { opacity: 0.9; transform: translateY(0) scale(1.06); }
+
+  /* ---------- the big fake title ---------- */
+
+  .beat .mega-title {
+    font-family: 'Anton', sans-serif;
+    text-transform: uppercase;
+    font-size: clamp(1.5rem, 4.6vw, 3.9rem);
+    line-height: 1.14;
+    max-width: 26ch;
+    background: linear-gradient(180deg, var(--steel-hi) 25%, var(--steel-lo) 80%, #39424b 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    filter: drop-shadow(0 2px 26px rgba(140, 170, 190, 0.2));
+    opacity: 0;
+    transform: scale(0.94);
+    transition: opacity 1.4s ease 0.3s, transform 3.4s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+  }
+  .beat.on .mega-title { opacity: 1; transform: scale(1.03); }
+  .mega-title .the-movie {
+    display: block;
+    margin-top: 0.35em;
+    font-size: 1.5em;
+    background: linear-gradient(180deg, #ffd9ac 15%, var(--grade-orange) 60%, #93380a 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  /* ---------- finale ---------- */
+
+  .finale .line { max-width: 12ch; }
+  .finale .just-called {
+    margin-top: 3rem;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    font-size: clamp(1rem, 2.6vw, 1.5rem);
+    letter-spacing: 0.34em;
+    text-indent: 0.34em;
+    text-transform: uppercase;
+    color: var(--dim);
+    opacity: 0;
+    transition: opacity 1.6s ease 2.2s;
+  }
+  .finale.on .just-called { opacity: 1; }
+
+  /* ---------- credits ---------- */
+
+  .credits .block { margin-bottom: 3.2rem; }
+  .credits .role {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.7rem, 1.6vw, 0.9rem);
+    letter-spacing: 0.5em;
+    text-indent: 0.5em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 0.7rem;
+  }
+  .credits .name {
+    font-family: 'Anton', sans-serif;
+    text-transform: uppercase;
+    font-size: clamp(1.3rem, 3.6vw, 2.4rem);
+    letter-spacing: 0.04em;
+  }
+  .credits .coming {
+    margin-top: 1.5rem;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: clamp(1.1rem, 3vw, 1.8rem);
+    letter-spacing: 0.3em;
+    text-indent: 0.3em;
+    text-transform: uppercase;
+    color: var(--grade-orange);
+  }
+  .credits .fineprint {
+    margin-top: 4rem;
+    font-size: 0.72rem;
+    font-weight: 300;
+    letter-spacing: 0.14em;
+    color: #4c555e;
+    max-width: 34rem;
+    line-height: 1.8;
+    text-transform: uppercase;
+  }
+  .credits .block, .credits .coming, .credits .fineprint {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 1.2s ease, transform 1.2s ease;
+  }
+  .credits.on .block, .credits.on .coming, .credits.on .fineprint {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .credits.on .block:nth-of-type(2) { transition-delay: 0.5s; }
+  .credits.on .block:nth-of-type(3) { transition-delay: 1s; }
+  .credits.on .coming { transition-delay: 1.6s; }
+  .credits.on .fineprint { transition-delay: 2.2s; }
+
+  /* ---------- title tracker (signature) ---------- */
+
+  #tracker {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    padding: 0.85rem 1.2rem 1.05rem;
+    background: linear-gradient(0deg, rgba(3, 4, 6, 0.94) 55%, transparent);
+    text-align: center;
+    pointer-events: none;
+    transition: opacity 0.8s ease;
+  }
+  #tracker .label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.5em;
+    text-indent: 0.5em;
+    text-transform: uppercase;
+    color: #545e68;
+    margin-bottom: 0.4rem;
+  }
+  #tracker .working-title {
+    font-family: 'Anton', sans-serif;
+    text-transform: uppercase;
+    font-size: clamp(0.8rem, 2vw, 1.05rem);
+    letter-spacing: 0.05em;
+    line-height: 1.5;
+    color: #cfd6dc;
+    min-height: 1.5em;
+    max-width: 72rem;
+    margin: 0 auto;
+    position: relative;
+  }
+  #tracker .working-title .chunk {
+    display: inline-block;
+    margin: 0 0.3em;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  #tracker .working-title .chunk.in { opacity: 1; transform: translateY(0); }
+  #tracker .working-title .chunk.final-two-brothers { color: var(--grade-orange); }
+  #tracker.collapsed .working-title .chunk:not(.final-two-brothers) {
+    opacity: 0;
+    transform: translateY(8px) scale(0.9);
+    position: absolute;
+    pointer-events: none;
+    visibility: hidden;
+  }
+  #tracker.hidden { opacity: 0; }
+
+  /* ---------- play button ---------- */
+
+  #play-btn {
+    position: fixed;
+    top: 1.1rem;
+    right: 1.2rem;
+    z-index: 20;
+    background: rgba(8, 10, 13, 0.72);
+    border: 1px solid #39424b;
+    color: var(--steel-hi);
+    font-family: 'Oswald', sans-serif;
+    font-weight: 400;
+    font-size: 0.8rem;
+    letter-spacing: 0.26em;
+    text-indent: 0.26em;
+    text-transform: uppercase;
+    padding: 0.65em 1.3em;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    transition: border-color 0.3s ease, color 0.3s ease;
+  }
+  #play-btn:hover, #play-btn:focus-visible { border-color: var(--grade-orange); color: var(--grade-orange); }
+  #play-btn:focus-visible { outline: 2px solid var(--grade-orange); outline-offset: 3px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.001s !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001s !important;
+      transition-delay: 0s !important;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .beat { padding-bottom: 20vh; }
+    #play-btn { top: 0.8rem; right: 0.8rem; font-size: 0.7rem; }
+  }
+</style>
+</head>
+<body>
+
+<canvas class="stars" id="stars" aria-hidden="true"></canvas>
+
+<button id="play-btn" type="button">▶&nbsp;&nbsp;Play trailer</button>
+
+<!-- 0 · rating card -->
+<section class="beat rating-card" data-braam="none">
+  <div class="frame">
+    <p class="approved">The following preview has been approved for</p>
+    <p>all audiences who are brothers, know a brother,<br>or have at some point been in a van</p>
+    <p class="rated">Rated B &nbsp;·&nbsp; for Brothers</p>
+  </div>
+  <p class="scroll-hint">Scroll — or press play</p>
+</section>
+
+<!-- 1 -->
+<section class="beat" data-title="Brothers," data-braam="big">
+  <p class="eyebrow">This summer</p>
+  <h1 class="line">Two brothers.</h1>
+</section>
+
+<!-- 2 -->
+<section class="beat" data-title="Running in a van" data-braam="small">
+  <svg class="van-svg" viewBox="0 0 200 92" fill="none" aria-hidden="true">
+    <path d="M10 62 L14 34 Q15 26 24 26 L118 26 Q126 26 132 32 L156 50 L182 56 Q190 58 190 66 L190 70 Q190 74 186 74 L14 74 Q10 74 10 70 Z" fill="#39424b"/>
+    <path d="M28 34 L60 34 L60 52 L22 52 Z" fill="#0d1218"/>
+    <path d="M68 34 L112 34 L112 52 L68 52 Z" fill="#0d1218"/>
+    <path d="M120 34 L130 34 L148 50 L120 50 Z" fill="#0d1218"/>
+    <circle cx="52" cy="76" r="12" fill="#11161c" stroke="#545e68" stroke-width="3"/>
+    <circle cx="152" cy="76" r="12" fill="#11161c" stroke="#545e68" stroke-width="3"/>
+    <path d="M0 90 L200 90" stroke="#39424b" stroke-width="2" stroke-dasharray="14 10"/>
+  </svg>
+  <h2 class="line">In a van.</h2>
+</section>
+
+<!-- 3 -->
+<section class="beat quake" data-title="from an asteroid" data-braam="big">
+  <div class="meteor-streaks" aria-hidden="true"><span></span><span></span><span></span></div>
+  <h2 class="line orange">And then a meteor hit.</h2>
+</section>
+
+<!-- 4 -->
+<section class="beat" data-braam="none">
+  <h2 class="line">And they ran as fast as they could.</h2>
+</section>
+
+<!-- 5 -->
+<section class="beat" data-title="Monster" data-braam="small">
+  <div class="cat-eyes" aria-hidden="true">
+    <span class="pair"><i></i><i></i></span>
+    <span class="pair"><i></i><i></i></span>
+    <span class="pair"><i></i><i></i></span>
+  </div>
+  <h2 class="line teal">From giant cat monsters.</h2>
+</section>
+
+<!-- 6 -->
+<section class="beat quake" data-title="and all sorts of things" data-braam="big">
+  <h2 class="line teal">And then a giant tornado came.</h2>
+</section>
+
+<!-- 7 -->
+<section class="beat" data-braam="none">
+  <p class="eyebrow">That's when things got knocked into</p>
+  <h2 class="line orange">12th gear.</h2>
+</section>
+
+<!-- 8 -->
+<section class="beat" data-title="Mexican Armada" data-braam="big">
+  <h2 class="line">A Mexican armada shows up.</h2>
+</section>
+
+<!-- 9 -->
+<section class="beat" data-title="Tomato" data-braam="small">
+  <svg class="splat" viewBox="0 0 400 400" aria-hidden="true">
+    <path fill="#e0342b" d="M200 60c18 34 52 22 66 48 12 22 52 8 62 40 9 29-26 38-20 66 6 30 40 42 18 70-19 24-46-4-68 12-24 18-16 50-52 46-32-4-26-38-52-46-28-9-52 18-68-10-15-27 14-42 6-70-8-27-44-28-36-60 7-29 42-18 56-42 15-25-8-56 24-68 29-11 42 30 64 14z"/>
+    <circle fill="#e0342b" cx="60" cy="80" r="14"/>
+    <circle fill="#e0342b" cx="348" cy="120" r="10"/>
+    <circle fill="#e0342b" cx="330" cy="330" r="16"/>
+    <circle fill="#e0342b" cx="80" cy="320" r="9"/>
+  </svg>
+  <h2 class="line red">With weapons made from tomatoes.</h2>
+</section>
+
+<!-- 10 -->
+<section class="beat" data-braam="none">
+  <p class="eyebrow">And you better bet your bottom dollar</p>
+  <h2 class="line">These two brothers know how to handle business.</h2>
+</section>
+
+<!-- 11 · the full title -->
+<section class="beat" data-braam="mega">
+  <p class="eyebrow">In</p>
+  <h2 class="mega-title">Alien Invasion Tomato Monster Mexican Armada Brothers, Who Are Just Regular Brothers, Running In a Van from an Asteroid and All Sorts of Things
+    <span class="the-movie">The Movie</span>
+  </h2>
+</section>
+
+<!-- 12 -->
+<section class="beat" data-braam="small">
+  <h2 class="line orange">Hold on. There's more.</h2>
+</section>
+
+<!-- 13 -->
+<section class="beat" data-title="Old women" data-braam="big">
+  <h2 class="line">Old women are coming.</h2>
+  <p class="aside">And they're also in the movie — and they're gonna come and cross-attack these two brothers</p>
+</section>
+
+<!-- 14 -->
+<section class="beat" data-braam="none">
+  <p class="eyebrow">But let's get back to the brothers</p>
+  <h2 class="line">Because they have a strong bond.</h2>
+  <p class="aside">You don't wanna know about it here — but I'll tell you one thing</p>
+</section>
+
+<!-- 15 -->
+<section class="beat quake" data-title="The Moon" data-braam="big">
+  <div class="moon" aria-hidden="true"></div>
+  <h2 class="line">The moon — it comes crashing into Earth.</h2>
+</section>
+
+<!-- 16 -->
+<section class="beat" data-braam="none">
+  <h2 class="line teal">And what do you do then?</h2>
+</section>
+
+<!-- 17 · finale -->
+<section class="beat finale" data-collapse="true" data-braam="mega">
+  <p class="eyebrow">It's two brothers and — it's called</p>
+  <h2 class="line orange">Two Brothers.</h2>
+  <p class="just-called">It's just called "Two Brothers."</p>
+</section>
+
+<!-- 18 · credits -->
+<section class="beat credits" data-braam="none">
+  <div class="block">
+    <p class="role">Starring</p>
+    <p class="name">Two Brothers</p>
+  </div>
+  <div class="block">
+    <p class="role">And introducing</p>
+    <p class="name">The Old Women &nbsp;·&nbsp; The Moon &nbsp;·&nbsp; A Van</p>
+  </div>
+  <div class="block">
+    <p class="role">From the studio that watched</p>
+    <p class="name">Interdimensional Cable</p>
+  </div>
+  <p class="coming">Coming soon — probably</p>
+  <p class="fineprint">
+    No brothers were harmed in the making of this trailer. The bond is strong — you don't wanna
+    know about it here. Fan homage to "Two Brothers" (Rick and Morty, S1E8 "Rixty Minutes").
+    Not affiliated with Adult Swim.
+  </p>
+</section>
+
+<div id="tracker" aria-hidden="true">
+  <p class="label">Working title</p>
+  <p class="working-title"></p>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- starfield ---------- */
+  var canvas = document.getElementById('stars');
+  var ctx = canvas.getContext('2d');
+  var stars = [];
+  function seedStars() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    stars = [];
+    var n = Math.floor((canvas.width * canvas.height) / 9000);
+    for (var i = 0; i < n; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.2 + 0.2,
+        p: Math.random() * Math.PI * 2,
+        s: 0.4 + Math.random() * 1.1
+      });
+    }
+  }
+  function drawStars(t) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (var i = 0; i < stars.length; i++) {
+      var st = stars[i];
+      var a = reducedMotion ? 0.5 : 0.28 + 0.42 * Math.abs(Math.sin(st.p + t * 0.00045 * st.s));
+      ctx.globalAlpha = a;
+      ctx.fillStyle = '#cfd8e0';
+      ctx.beginPath();
+      ctx.arc(st.x, st.y, st.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    if (!reducedMotion) requestAnimationFrame(drawStars);
+  }
+  seedStars();
+  window.addEventListener('resize', seedStars);
+  requestAnimationFrame(drawStars);
+
+  /* ---------- title tracker ---------- */
+  var tracker = document.getElementById('tracker');
+  var workingTitle = tracker.querySelector('.working-title');
+  var beats = Array.prototype.slice.call(document.querySelectorAll('.beat'));
+  var chunks = {}; // beat index -> chunk element
+
+  beats.forEach(function (beat, idx) {
+    var word = beat.getAttribute('data-title');
+    if (!word) return;
+    var span = document.createElement('span');
+    span.className = 'chunk';
+    span.textContent = word;
+    workingTitle.appendChild(span);
+    chunks[idx] = span;
+  });
+  // the collapse target
+  var finalChunk = document.createElement('span');
+  finalChunk.className = 'chunk final-two-brothers';
+  finalChunk.textContent = 'Two Brothers.';
+  workingTitle.appendChild(finalChunk);
+
+  /* ---------- braams (WebAudio, only after user gesture) ---------- */
+  var audioCtx = null;
+  function braam(kind) {
+    if (!audioCtx || kind === 'none' || reducedMotion) return;
+    var now = audioCtx.currentTime;
+    var master = audioCtx.createGain();
+    master.connect(audioCtx.destination);
+    var cfg = kind === 'mega'
+      ? { f: 55, dur: 2.6, gain: 0.5, voices: 4 }
+      : kind === 'big'
+        ? { f: 65, dur: 1.8, gain: 0.38, voices: 3 }
+        : { f: 82, dur: 1.1, gain: 0.24, voices: 2 };
+    master.gain.setValueAtTime(0.0001, now);
+    master.gain.exponentialRampToValueAtTime(cfg.gain, now + 0.06);
+    master.gain.exponentialRampToValueAtTime(0.0001, now + cfg.dur);
+    for (var v = 0; v < cfg.voices; v++) {
+      var osc = audioCtx.createOscillator();
+      osc.type = v === 0 ? 'sine' : 'sawtooth';
+      var detune = (v - cfg.voices / 2) * 7;
+      osc.frequency.setValueAtTime(cfg.f * (v === 0 ? 0.5 : 1), now);
+      osc.frequency.exponentialRampToValueAtTime(cfg.f * (v === 0 ? 0.5 : 1) * 0.82, now + cfg.dur);
+      osc.detune.setValueAtTime(detune, now);
+      var g = audioCtx.createGain();
+      g.gain.setValueAtTime(v === 0 ? 0.9 : 0.28, now);
+      var lp = audioCtx.createBiquadFilter();
+      lp.type = 'lowpass';
+      lp.frequency.setValueAtTime(kind === 'small' ? 500 : 900, now);
+      lp.frequency.exponentialRampToValueAtTime(140, now + cfg.dur);
+      osc.connect(g); g.connect(lp); lp.connect(master);
+      osc.start(now);
+      osc.stop(now + cfg.dur + 0.1);
+    }
+  }
+
+  /* ---------- beat activation ---------- */
+  var braamed = {};
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      var beat = entry.target;
+      var idx = beats.indexOf(beat);
+      if (entry.isIntersecting) {
+        beat.classList.add('on');
+        // reveal every tracker chunk up to and including this beat
+        beats.forEach(function (b, i) {
+          if (i <= idx && chunks[i]) chunks[i].classList.add('in');
+        });
+        if (beat.hasAttribute('data-collapse')) {
+          tracker.classList.add('collapsed');
+          finalChunk.classList.add('in');
+        }
+        if (beat.classList.contains('credits')) tracker.classList.add('hidden');
+        else tracker.classList.remove('hidden');
+        if (!braamed[idx]) {
+          braamed[idx] = true;
+          braam(beat.getAttribute('data-braam'));
+        }
+      } else if (entry.boundingClientRect.top > 0) {
+        // scrolled back above this beat: allow replay + retract state
+        beat.classList.remove('on');
+        braamed[idx] = false;
+        if (chunks[idx]) chunks[idx].classList.remove('in');
+        if (beat.hasAttribute('data-collapse')) {
+          tracker.classList.remove('collapsed');
+          finalChunk.classList.remove('in');
+        }
+      }
+    });
+  }, { threshold: 0.55 });
+  beats.forEach(function (b) { observer.observe(b); });
+
+  /* ---------- play trailer (auto-scroll) ---------- */
+  var playBtn = document.getElementById('play-btn');
+  var playing = false;
+  var playTimer = null;
+
+  function beatDwell(beat) {
+    var text = beat.textContent.replace(/\s+/g, ' ').trim();
+    if (beat.classList.contains('rating-card')) return 2600;
+    if (beat.querySelector('.mega-title')) return 6000;
+    if (beat.classList.contains('finale')) return 6000;
+    if (beat.classList.contains('credits')) return 5000;
+    return Math.min(5200, 2200 + text.length * 28);
+  }
+
+  function stopPlayback(label) {
+    playing = false;
+    clearTimeout(playTimer);
+    playBtn.textContent = label || '▶  Play trailer';
+  }
+
+  function playFrom(i) {
+    if (!playing) return;
+    if (i >= beats.length) { stopPlayback('↻  Play again'); return; }
+    beats[i].scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth' });
+    playTimer = setTimeout(function () { playFrom(i + 1); }, beatDwell(beats[i]));
+  }
+
+  playBtn.addEventListener('click', function () {
+    if (playing) { stopPlayback(); return; }
+    if (!audioCtx) {
+      try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {}
+    }
+    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+    playing = true;
+    playBtn.textContent = '■  Stop';
+    playFrom(0);
+  });
+
+  // manual scroll cancels autoplay
+  window.addEventListener('wheel', function () { if (playing) stopPlayback(); }, { passive: true });
+  window.addEventListener('touchmove', function () { if (playing) stopPlayback(); }, { passive: true });
+  window.addEventListener('keydown', function (e) {
+    if (playing && ['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', ' ', 'Home', 'End'].indexOf(e.key) !== -1) {
+      stopPlayback();
+    }
+  });
+})();
+</script>
+</body>
+</html>
