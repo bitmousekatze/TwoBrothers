@@ -27,6 +27,8 @@
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
   }
+  /* snap fights programmatic smooth-scroll on mobile — off during autoplay */
+  html.autoplaying { scroll-snap-type: none; }
 
   body {
     background: var(--void);
@@ -1405,6 +1407,7 @@
     cancelAnimationFrame(syncRaf);
     if (!soundtrack.paused) soundtrack.pause();
     document.body.classList.remove('playing');
+    document.documentElement.classList.remove('autoplaying');
     playBtn.textContent = label || '▶  Play trailer';
   }
 
@@ -1437,30 +1440,36 @@
     stopPlayback('↻  Play again');
   });
 
+  // fallback when the mp3 can't play: synth braams + timed autoscroll
+  function startSynth() {
+    document.body.classList.remove('playing');
+    if (!audioCtx) {
+      try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {}
+    }
+    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+    playFrom(0);
+  }
+
   playBtn.addEventListener('click', function () {
     if (playing) { stopPlayback(); return; }
     playing = true;
     playBtn.textContent = '■  Stop';
-    if (!soundtrackDead && soundtrack.readyState >= 2) {
-      document.body.classList.add('playing');
-      cueIdx = 0;
-      wordIdx = 0;
-      allWords.forEach(function (w) { w.classList.remove('said'); });
-      soundtrack.currentTime = 0;
-      soundtrack.play().then(syncTick).catch(function () {
-        // autoplay refused or decode failure — fall back to synth mode
-        document.body.classList.remove('playing');
-        if (!audioCtx) {
-          try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {}
-        }
-        playFrom(0);
+    document.documentElement.classList.add('autoplaying');
+    if (soundtrackDead) { startSynth(); return; }
+    // always ATTEMPT playback inside the tap gesture: mobile browsers
+    // ignore preload, so readyState is 0 here — play() itself loads it
+    document.body.classList.add('playing');
+    cueIdx = 0;
+    wordIdx = 0;
+    allWords.forEach(function (w) { w.classList.remove('said'); });
+    try { soundtrack.currentTime = 0; } catch (e) {}
+    var attempt = soundtrack.play();
+    if (attempt && attempt.then) {
+      attempt.then(syncTick).catch(function () {
+        if (playing) startSynth();
       });
     } else {
-      if (!audioCtx) {
-        try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {}
-      }
-      if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-      playFrom(0);
+      syncTick();
     }
   });
 
