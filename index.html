@@ -1473,6 +1473,15 @@
     }
   });
 
+  // leaving the page (tab/app switch, closing) stops playback — the
+  // narrator should not keep going in the background
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden && playing) stopPlayback();
+  });
+  window.addEventListener('pagehide', function () {
+    if (playing) stopPlayback();
+  });
+
   // manual scroll cancels autoplay
   window.addEventListener('wheel', function () { if (playing) stopPlayback(); }, { passive: true });
   window.addEventListener('touchmove', function () { if (playing) stopPlayback(); }, { passive: true });
