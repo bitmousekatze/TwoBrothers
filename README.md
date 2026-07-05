@@ -14,9 +14,9 @@ A single-file, scroll-driven parody movie trailer, faithful to the interdimensio
 
 - **Full-screen title cards** — steel-gradient Anton caps, Trajan-style eyebrows, green MPAA rating card up front (*Rated B — for Brothers*)
 - **The Working Title tracker** — the movie title accumulates at the bottom of the screen as the narrator escalates, then collapses to *Two Brothers.* at the finale
-- **▶ Play trailer** — auto-scrolls through every beat with synthesized WebAudio BWAAAMs (no audio files, pure oscillators)
-- Meteor streaks, blinking cat-monster eyes, a tomato splat, camera shake, and the Moon crashing into Earth — all CSS/SVG, no images
-- Respects `prefers-reduced-motion`, responsive down to phones
+- **▶ Play trailer** — plays `twobrothers.mp3` and scrolls each card at the narration's word-level timestamps (transcribed with whisper); every word of every line appears only once the narrator has said it
+- **A graphic on every slide** — the brothers, the van, a flaming meteor, sprinting silhouettes, a giant cat monster with blinking eyes, a swaying tornado, a 12th-gear speedometer, a three-galleon Mexican armada, a cannon lobbing tomatoes, a bottom dollar, a poster billing block, a hold-on hand, marching old women, interlocked bond links, the Moon, shrugging brothers, and a van driving across the credits — all hand-drawn inline SVG/CSS, zero images
+- Synth-BWAAAM autoscroll fallback if the mp3 is missing; respects `prefers-reduced-motion`, responsive down to phones
 
 ## Run it
 
